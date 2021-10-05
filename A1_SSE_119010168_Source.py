@@ -74,10 +74,14 @@ def move(p_number, p_puzzle_number):
         output(p_puzzle_number)
 
 #ask the user to prompt how to move and display the updated puzzle
-def instruction_move_9():
+def instruction_move_9(diff):
     global instruction
     step=0
+    remainingStep = diff - step
     while True:
+        if instruction == 'end' or remainingStep == 0 : 
+            print('GAME OVER')
+            break
         if list[0] == " ":
             instruction=input("Enter your move(left-"+l+","+"up-"+u+")")
             if instruction == d or instruction == r:
@@ -118,12 +122,14 @@ def instruction_move_9():
                     continue 
         move(3,9)
         step += 1
+        remainingStep = diff - step
+        print('REMAINING STEPS:',remainingStep)
 
 #all the fuctions need in 9-puzzle game
-def main_play_9():
+def main_play_9(diff):
     order() 
     produce_9number()
-    instruction_move_9()     
+    instruction_move_9(diff)     
 
 #produce a solvable 16-puzzle       
 def produce_16number():
@@ -158,10 +164,14 @@ def produce_16number():
                 continue
 
 #ask the user to input how to move and update the 16-puzzle   
-def instruction_move_16():
+def instruction_move_16(diff):
     global instruction,list2
     step=0
+    remainingStep = diff - step
     while True:
+        if instruction == 'end' or remainingStep == 0 : 
+            print('GAME OVER')
+            break
         if list[0] == " ":
             instruction=input("Enter your move(left-"+l+","+"up-"+u+")")
             if instruction == d or instruction == r:
@@ -204,12 +214,13 @@ def instruction_move_16():
                     continue 
         move(4, 16)
         step+=1
-
+        remainingStep = diff - step
+        print('REMAINING STEPS:',remainingStep)
 #all the fuctions need in 16-puzzle
-def main_play_16():
+def main_play_16(diff):
     order() 
     produce_16number()
-    instruction_move_16()  
+    instruction_move_16(diff)  
 
 #ask the user play which puzzle or quit the game
 def main():
@@ -219,15 +230,25 @@ the currently unoccupied space until all numbers appear sequentially, ordered fr
 top to bottom.
     ''')
     while True:
+        level=input(''' 
+Choose your difficulty level
+
+Enter easy or medium or hard: ''' )
+#set difficulty level
+        if level=='easy': 
+            diff=100 
+        if level=='medium':
+            diff=50
+        if level=='hard': 
+            diff=25
         game=input("Enter '1' for 8-puzzle, '2' for 15-puzzle or 'q' to end the game:")
         if game == "1":
-            main_play_9()
+            main_play_9(diff)
         if game == "2":
-            main_play_16()
+            main_play_16(diff)
         if game == "q":
             print("The game is end. Welcome back.")
             break
         else:
             continue
 main()
-
